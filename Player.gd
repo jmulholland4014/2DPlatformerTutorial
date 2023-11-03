@@ -3,7 +3,8 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
-
+@export var death_height = 1000
+@onready var respawn_pos = get_parent().get_node("Respawn")
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -32,5 +33,6 @@ func _physics_process(delta):
 	else:
 		$AnimationPlayer.current_animation = "Idle"
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	if position.y > death_height:
+		position = respawn_pos.position
 	move_and_slide()
